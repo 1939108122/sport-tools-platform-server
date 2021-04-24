@@ -5,4 +5,5 @@
  */
 module.exports = app => {
     require('./router/frontEnd/user')(app);
+    require('./router/frontEnd/resource')(app);
 };

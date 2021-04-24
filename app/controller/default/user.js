@@ -26,7 +26,6 @@ class UserController extends Controller {
         };
         // 保存用户信息到session
         ctx.session.user = loginUser;
-        console.log(ctx.session);
         ctx.body = {
           code: '001',
           user: loginUser,
