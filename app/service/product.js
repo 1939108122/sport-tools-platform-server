@@ -35,6 +35,18 @@ class ProductService extends Service {
         
         return await this.app.mysql.query(sql, []);
     }
+
+    // 获取商品详情
+    async getDetails(productID) {
+        const sql = 'select * from product where product_id = ?';
+        return await this.app.mysql.query(sql, productID);
+    }
+
+     // 获取商品详情图片
+     async getDetailsPicture(productID) {
+        const sql = 'select * from product_picture where product_id = ?';
+        return await this.app.mysql.query(sql, productID);
+    }
 }
 
 module.exports = ProductService;

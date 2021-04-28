@@ -59,6 +59,26 @@ class ProductController extends Controller {
       total
     }
   }
+
+   // 获取商品详情
+   async getDetails() {
+    let { productID } = this.ctx.request.body;
+    let list = await this.ctx.service.product.getDetails(productID);
+    this.ctx.body = {
+        code: '001',
+        list
+    };
+  }
+
+  // 获取商品详情
+  async getDetailsPicture() {
+    let { productID } = this.ctx.request.body;
+    let list = await this.ctx.service.product.getDetailsPicture(productID);
+    this.ctx.body = {
+        code: '001',
+        list
+    };
+  }
 }
 
 module.exports = ProductController;
