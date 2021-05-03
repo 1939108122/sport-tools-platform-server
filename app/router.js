@@ -9,4 +9,5 @@ module.exports = app => {
     require('./router/frontEnd/product')(app);
     require('./router/frontEnd/shopping')(app);
     require('./router/frontEnd/collect')(app);
+    require('./router/frontEnd/order')(app);
 };
