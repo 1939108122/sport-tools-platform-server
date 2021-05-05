@@ -10,4 +10,5 @@ module.exports = app => {
     require('./router/frontEnd/shopping')(app);
     require('./router/frontEnd/collect')(app);
     require('./router/frontEnd/order')(app);
+    require('./router/admin/user')(app);
 };
