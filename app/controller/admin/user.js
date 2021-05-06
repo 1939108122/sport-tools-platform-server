@@ -35,6 +35,20 @@ class UserController extends Controller {
         return;
       }
   }
+    // 获取用户列表
+  async getList() {
+    let { ctx } = this;
+    let { search, currentPage, pageSize } = this.ctx.request.body;
+    let offset = (currentPage -1 )*pageSize;
+    let  list = await this.ctx.service.adminUser.getList(search, offset, pageSize);
+    let total = (await this.ctx.service.adminUser.getList(search)).length;
+    ctx.body = {
+        code: 200,
+        list,
+        total
+    }
+
+  }
 }
 
 module.exports = UserController;
