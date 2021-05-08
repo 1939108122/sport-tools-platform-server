@@ -17,6 +17,17 @@ class AdminUserService extends Service {
         return await this.app.mysql.query(sql, []);
         
     }
+    // 删除用户
+    async delUser(userId) {
+        return await this.app.mysql.delete('user', {userId})
+    }
+
+    // 寻找用户当前信息
+    async findUser(userId) {
+        let sql = 'select * from user where userId = ? ';
+        return await this.app.mysql.query(sql, userId)
+    }
+    
 }
 
 module.exports = AdminUserService;

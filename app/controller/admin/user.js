@@ -49,6 +49,47 @@ class UserController extends Controller {
     }
 
   }
+//   删除用户
+  async delUser() {
+    let { ctx } = this;
+    let id = ctx.params.id;
+    let result = await ctx.service.adminUser.delUser(id);
+    if (result.affectedRows == 1)
+    {
+        ctx.body = {
+            code: 200,
+            msg: '删除成功！'
+        }
+    }
+    else {
+        ctx.body = {
+            code: 300,
+            msg: '删除失败！'
+        }
+    }
+      
+  }
+
+  //寻找用户
+  async findUser() {
+    let { ctx } = this;
+    let { id } = ctx.request.body;
+    let result = await ctx.service.adminUser.findUser(id);
+    if (result.length == 1)
+    {
+        ctx.body = {
+            code: 200,
+            list: result,
+            msg: '寻找成功！'
+        }
+    }
+    else {
+        ctx.body = {
+            code: 300,
+            msg: '寻找失败'
+        }
+    }
+  }
 }
 
 module.exports = UserController;
