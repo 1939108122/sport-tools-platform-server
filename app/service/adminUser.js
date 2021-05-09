@@ -27,6 +27,20 @@ class AdminUserService extends Service {
         let sql = 'select * from user where userId = ? ';
         return await this.app.mysql.query(sql, userId)
     }
+
+    // 更新用户信息
+    async updateUser(userId, password, userPhoneNumber) {
+        const row = {
+            password: password,
+            userPhoneNumber: userPhoneNumber
+        }
+        const options = {
+            where: {
+                userId: userId
+            }
+        }
+        return await this.app.mysql.update('user', row, options);
+    }
     
 }
 

@@ -90,6 +90,26 @@ class UserController extends Controller {
         }
     }
   }
+
+    //更新用户
+    async updateUser() {
+        let { ctx } = this;
+        let { userId, password, userPhoneNumber } = ctx.request.body;
+        let result = await ctx.service.adminUser.updateUser(userId, password, userPhoneNumber);
+        if (result.affectedRows == 1)
+        {
+            ctx.body = {
+                code: 200,
+                msg: '更新成功'
+            }
+        }
+        else {
+            ctx.body = {
+                code: 300,
+                msg: '更新失败'
+            }
+        }
+    }
 }
 
 module.exports = UserController;
