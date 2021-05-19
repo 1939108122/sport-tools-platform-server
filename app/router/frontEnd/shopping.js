@@ -4,4 +4,5 @@ module.exports = app=> {
     router.post('/default/shopping/addShoppingCart', controller.default.shopping.addShoppingCart);
     router.post('/default/shopping/updateShoppingCart', controller.default.shopping.updateShoppingCart);
     router.post('/default/shopping/deleteShoppingCart', controller.default.shopping.deleteShoppingCart);
+    router.post('/default/shopping/updateShoppingCartRentMonth', controller.default.shopping.updateShoppingCartRentMonth);
 }

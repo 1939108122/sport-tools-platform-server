@@ -99,6 +99,50 @@ class UserController extends Controller {
         msg: '未知错误'
     }
   }
+
+  //  通过Id查找用户详细信息
+  async getUserInfoByID() {
+    let { ctx } = this;
+    let { userId } = ctx.request.body;
+    const result = await ctx.service.user.getUserInfoByID(userId);
+    if (result.length == 0)
+    {
+        ctx.body = {
+            code: '004',
+            msg: '查找失败',
+            userInfo: {}
+        }
+        return;
+    }
+
+    if (result.length == 1)
+    {
+        ctx.body = {
+            code: '001',
+            msg: '查找成功',
+            userInfo: result
+        }
+        return;
+    }
+
+    //数据库设置用户名唯一，
+    //若存在result.length != 1 || result.length!=0
+    //返回未知错误
+    //正常不会出现
+    ctx.body = {
+        code: '500',
+        msg: '未知错误'
+    }
+  }
+    //获取所有用户信息
+    async getUserList() {
+        let result = await this.ctx.service.user.getUserList();
+        this.ctx.body = {
+            code: '001',
+            msg: '请求成功',
+            list: result
+        }
+    }
 }
 
 module.exports = UserController;

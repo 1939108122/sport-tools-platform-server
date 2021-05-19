@@ -1,6 +1,7 @@
 'use strict';
 
 const Controller = require('egg').Controller;
+const { orderRentTime } = require('../../middleware/orderRentTime.js') ;
 
 class OrderController extends Controller {
 
@@ -22,15 +23,16 @@ class OrderController extends Controller {
 
     // 获取所有的订单详细信息
     const orders = await ctx.service.order.GetOrder(user_id);
-
+    // 判断租用时间与当前时间相差天数
+    let calOrders = await orderRentTime(ctx, orders);
     let ordersList = [];
     // 生成每个订单的详细信息列表
     for (let i = 0; i < ordersGroup.length; i++) {
         const orderID = ordersGroup[i];
         let tempOrder = [];
 
-        for (let j = 0; j < orders.length; j++) {
-        const order = orders[j];
+        for (let j = 0; j < calOrders.length; j++) {
+        const order = calOrders[j];
 
         if (orderID.order_id == order.order_id) {
             // 获取每个商品详细信息
@@ -58,12 +60,14 @@ class OrderController extends Controller {
     const timeTemp = new Date().getTime();
     // 生成订单id：用户id+时间戳(string)
     const orderID = +("" + user_id + timeTemp);
-
+    const pay_status = 1;
     let data = [];
     // 根据数据库表结构生成字段信息
     for (let i = 0; i < products.length; i++) {
         const temp = products[i];
-        let product = [orderID, user_id, temp.productID, temp.num, temp.price, timeTemp];
+        let remain_days = temp.rentMonth*30;
+        let is_return = 0;
+        let product = [orderID, user_id, temp.productID, temp.num, temp.price, timeTemp, pay_status, remain_days, temp.rentMonth, is_return];
         data.push(...product);
     }
         // 把订单信息插入数据库
@@ -98,6 +102,25 @@ class OrderController extends Controller {
             }
         }
     
+  }
+  //退还商品
+  async returnOrder() {
+      let { ctx } = this;
+      let { user_id, product_id } = ctx.request.body;
+      let result = await ctx.service.order.returnOrder(user_id, product_id, 1);
+      if (result.affectedRows === 1)
+      {
+        ctx.body = {
+            code: '001',
+            msg: '退还成功'
+        }
+      }
+      else {
+        ctx.body = {
+            code: '004',
+            msg: '退还失败'
+        }
+      }
   }
 }
 

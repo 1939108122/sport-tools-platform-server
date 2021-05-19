@@ -158,6 +158,40 @@ class ShoppingController extends Controller {
         }
     }
   }
+  //修改购物车租用时间
+  async updateShoppingCartRentMonth() {
+    let { ctx } = this;
+    let { user_id, product_id, rent_month } = ctx.request.body;
+    // 判断数量是否小于1
+    if (rent_month < 1) {
+        ctx.body = {
+          code: '004',
+          msg: '时间不合法'
+        }
+        return;
+    }
+    // 判断该用户的购物车是否存在该商品
+    let tempShoppingCart = await ctx.service.shopping.FindShoppingCart(user_id, product_id);
+    if (tempShoppingCart.length > 0) {
+        // 修改购物车信息
+        const result = await ctx.service.shopping.updateShoppingCartRentMonth(rent_month, user_id, product_id);
+        // 判断是否修改成功
+        if (result.affectedRows === 1) {
+          ctx.body = {
+            code: '001',
+            msg: '修改租用时间成功'
+          }
+          return;
+        }
+    }
+    else {
+        //不存在则返回信息
+      ctx.body = {
+        code: '002',
+        msg: '该商品不在购物车'
+      }
+    }
+  }
 }
 
 module.exports = ShoppingController;

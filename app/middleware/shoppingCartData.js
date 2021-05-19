@@ -13,7 +13,8 @@ module.exports = {
             price: product[0].product_selling_price,
             num: temp.num,
             maxNum: Math.floor(product[0].product_num / 2),
-            check: false
+            check: false,
+            rentMonth: temp.rent_month
           };
     
           shoppingCartData.push(shoppingCartDataTemp);

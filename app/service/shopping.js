@@ -15,7 +15,7 @@ class ShoppingService extends Service {
 
     // 新插入购物车信息
     async AddShoppingCart(user_id, product_id) {
-        const sql = 'insert into shoppingcart values(null,?,?,1)';
+        const sql = 'insert into shoppingcart values(null,?,?,1,1)';
         return await this.app.mysql.query(sql, [user_id, product_id]);
     }
 
@@ -28,6 +28,11 @@ class ShoppingService extends Service {
     async DeleteShoppingCart(user_id, product_id) {
         const sql = 'delete from shoppingcart where user_id =? and product_id =?';
         return await this.app.mysql.query(sql, [user_id, product_id]);
+    }
+    // 更新购物车租用时间
+    async updateShoppingCartRentMonth(rent_month, user_id, product_id) {
+        const sql = 'update shoppingcart set rent_month =? where user_id =? and product_id =?';
+        return await this.app.mysql.query(sql, [rent_month, user_id, product_id]);
     }
 }
 

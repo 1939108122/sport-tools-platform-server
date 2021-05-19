@@ -15,6 +15,17 @@ class UserService extends Service {
         const user = await this.app.mysql.query('select * from user where userName = ?', userName);
         return user;
     }
+    // 查找用户
+    async getUserInfoByID(userId) {
+        const user = await this.app.mysql.query('select * from user where userId = ?', userId);
+        return user;
+    }
+    // 查找用户
+    async getUserList() {
+        const sql = 'select * from user';
+        return await this.app.mysql.query(sql);
+
+    }
 }
 
 module.exports = UserService;
