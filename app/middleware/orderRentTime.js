@@ -11,7 +11,7 @@ module.exports = {
     async orderRentTime(ctx, data) {
         var timestamp = Date.parse(new Date());
         data.forEach( item => {
-            item.remain_days = item.remain_days - methods.datedifference(item.order_time, timestamp);
+            item.remain_days = item.rent_month*30 - methods.datedifference(item.order_time, timestamp);
             let result = ctx.service.order.updateOrderRemainDays(item.remain_days, item.user_id, item.product_id);
         })
         return data;
